@@ -1,0 +1,16 @@
+# Render Blueprint: New > Blueprint > pick this repo. Render asks for the two secrets below.
+# Index REA from your own machine first (index-rea.bat); the hosted app only serves it.
+services:
+  - type: web
+    name: spelunk
+    runtime: docker
+    plan: free
+    region: singapore
+    healthCheckPath: /api/health
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: MONGODB_URI
+        sync: false
+      - key: READ_ONLY
+        value: "true"
