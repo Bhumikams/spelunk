@@ -41,10 +41,22 @@ export default function App() {
   }, [])
 
   useEffect(() => {
-    api.health().then(setHealth).catch(() => {})
-    refresh().then((list) => {
-      setSelected((cur) => cur || list.find((r) => r.status === 'ready')?.repo_id || list[0]?.repo_id || null)
-    })
+    // A free-tier server may still be waking up (or its database connecting) on the
+    // first request, so an empty or failed repo list is retried a few times.
+    let live = true
+    let tries = 0
+    const load = async () => {
+      api.health().then((h) => live && setHealth(h)).catch(() => {})
+      const list = await refresh()
+      if (!live) return
+      if (list.length) {
+        setSelected((cur) => cur || list.find((r) => r.status === 'ready')?.repo_id || list[0].repo_id)
+      } else if (tries++ < 10) {
+        setTimeout(load, 3000)
+      }
+    }
+    load()
+    return () => { live = false }
   }, [refresh])
 
   // poll while anything is being indexed
@@ -77,7 +89,11 @@ export default function App() {
       <main className="main">
         {loadError && <p className="error pad">{loadError}</p>}
 
-        {!repo && !loadError && (
+        {!repo && !loadError && repos.length === 0 && !health && (
+          <p className="muted pad">Waking up the server. On the free plan this can take up to a minute…</p>
+        )}
+
+        {!repo && !loadError && (health || repos.length > 0) && (
           <div className="welcome">
             <h1>Read any codebase by asking it questions</h1>
             <p>

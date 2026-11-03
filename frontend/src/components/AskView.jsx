@@ -6,10 +6,22 @@ import SourceCard from './SourceCard'
 
 const STARTERS = {
   'morluto/rea': [
-    'How does REA decide which analysis provider handles a binary?',
-    'What happens between `rea mcp` starting and a tool call reaching Ghidra?',
+    'What happens on SIGINT or SIGTERM: how does the server process shut down?',
+    'How is a headless Ghidra process started, and what arguments are passed to analyzeHeadless?',
     'How does the Hopper bridge talk to the TypeScript side?',
     'Where are evidence records kept, and how are unknowns tracked?',
+  ],
+  'pallets/flask': [
+    'How does the route decorator register a URL rule?',
+    'Where is the request context pushed and popped?',
+    'How does Flask load config from environment variables?',
+    'How are blueprints registered on the app?',
+  ],
+  'psf/requests': [
+    'How does a Session send a request and follow redirects?',
+    'How does requests guess the response encoding?',
+    'How are cookies kept between requests?',
+    'Where are retries configured for connections?',
   ],
 }
 const GENERIC = [
