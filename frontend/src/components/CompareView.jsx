@@ -9,6 +9,8 @@ const SAMPLES = {
     'Ghidra Java version check',
     'read Electron fuses',
   ],
+  'pallets/flask': ['add_url_rule', 'how does the route decorator work', 'from_prefixed_env', 'where is the app context pushed'],
+  'psf/requests': ['HTTPAdapter', 'how are redirects followed', 'apparent_encoding', 'how are cookies stored'],
 }
 
 const COLUMNS = [
